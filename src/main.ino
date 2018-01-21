@@ -1,7 +1,7 @@
 #define LED_PIN 13
 #define CYCLE 100
 
-int delay_time = 50;
+// 1 == true == HIGH,  0 == false == LOW
 bool mcLED [40] = {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0,
                    1, 0, 1, 0, 1, 0, 0, 0,
                    1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0,
