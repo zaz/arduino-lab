@@ -2,30 +2,18 @@
 #define CYCLE 100
 
 int delay_time = 50;
-
-void dot() {
-	digitalWrite(LED_PIN, 1);
-	delay(CYCLE);
-	digitalWrite(LED_PIN, 0);
-	delay(CYCLE);
-}
-
-void dash() {
-	digitalWrite(LED_PIN, 1);
-	delay(3 * CYCLE);
-	digitalWrite(LED_PIN, 0);
-	delay(CYCLE);
-}
-
-void end_letter() {
-	digitalWrite(LED_PIN, 0);
-	delay(2 * CYCLE);
-}
-
-void space() {
-	digitalWrite(LED_PIN, 0);
-	delay(4 * CYCLE);
-}
+int mcLED [40] = {1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0,
+                  1, 0, 1, 0, 1, 0, 0, 0,
+                  1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0,
+                  0, 0, 0, 0};
+int l0 [8] = {1, 1, 1, 1, 0, 0, 0, 0};
+int l1 [8] = {0, 1, 1, 1, 1, 0, 0, 0};
+int l2 [8] = {0, 0, 1, 1, 1, 1, 0, 0};
+int l3 [8] = {0, 0, 0, 1, 1, 1, 1, 0};
+int p0 [4] = {1, 0};
+int p1 [4] = {1, 0};
+int p2 [4] = {0, 1};
+int p3 [4] = {0, 1};
 
 void setup() {
 	Serial.begin(9600);
@@ -34,15 +22,22 @@ void setup() {
 	pinMode(10, OUTPUT);
 	pinMode(11, OUTPUT);
 	pinMode(12, OUTPUT);
-	digitalWrite(9, 1);
-	digitalWrite(10, 1);
-	digitalWrite(11, 1);
-	digitalWrite(12, 1);
 }
 
 void loop() {
-	dot(); dash(); dash(); dash(); end_letter();
-	dot(); dot(); dot(); end_letter();
-	dash(); dot(); dot(); dot(); end_letter();
-	space();
+	for (int i=0; i < 120; i++) {
+		digitalWrite(LED_PIN, mcLED[i % 40]);
+		if (i < 80) {
+			digitalWrite(9,  l0[int(i/2) % 8]);
+			digitalWrite(10, l1[int(i/2) % 8]);
+			digitalWrite(11, l2[int(i/2) % 8]);
+			digitalWrite(12, l3[int(i/2) % 8]);
+		} else {
+			digitalWrite(9,  p0[int(i/4) % 2]);
+			digitalWrite(10, p1[int(i/4) % 2]);
+			digitalWrite(11, p2[int(i/4) % 2]);
+			digitalWrite(12, p3[int(i/4) % 2]);
+		}
+		delay(CYCLE);  // cycles will be slightly longer than CYCLE ms
+	}
 }
